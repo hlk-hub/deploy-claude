@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "@prisma/client": "6.4.1",
+    "prisma": "6.4.1"
+  },
+  "type": "module",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
