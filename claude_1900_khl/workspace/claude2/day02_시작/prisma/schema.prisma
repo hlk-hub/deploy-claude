@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 게시글 모델
+model Post {
+  @@map("tbl_post")
+
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String
+  authorName String
+  viewCount Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // 댓글과의 관계 (1:N)
+  comments  Comment[]
+
+  @@index([createdAt])
+  @@index([authorName])
+}
+
+// 댓글 모델
+model Comment {
+  @@map("tbl_comment")
+
+  id        Int       @id @default(autoincrement())
+  content   String
+  authorName String
+  createdAt DateTime  @default(now())
+
+  // Post와의 관계
+  postId    Int
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@index([createdAt])
+}
+
