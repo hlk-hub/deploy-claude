@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시판 - Anonymous Board</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Alert Container -->
+  <div id="alertContainer" style="position: fixed; bottom: 2rem; right: 2rem; z-index: 2000; max-width: 500px; width: 90%; display: flex; flex-direction: column-reverse; gap: 0.5rem;"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <div class="header-title">📝 게시판</div>
+      <nav class="header-nav">
+        <a href="#" class="nav-link active" data-page="list">게시글 목록</a>
+        <a href="#" class="nav-link" data-page="create">새 글 작성</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- List Page -->
+    <div id="listPage" class="page active">
+      <div class="container">
+        <div class="action-bar">
+          <h1 style="margin: 0; font-size: 1.75rem;">게시글 목록</h1>
+          <button id="createPostBtn" class="btn btn-primary">새 게시글 작성</button>
+        </div>
+        <div id="postListContainer">
+          <!-- Posts will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Page -->
+    <div id="detailPage" class="page">
+      <div class="container">
+        <a href="#" class="breadcrumb-link" onclick="event.preventDefault(); PageManager.showPage('list'); loadPostsList(); PageManager.scrollToTop();">
+          ← 목록으로
+        </a>
+        <div id="postDetailContainer">
+          <!-- Post details will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Create/Edit Page -->
+    <div id="createPage" class="page">
+      <div class="container">
+        <h1 id="formTitle" style="margin-bottom: 1.5rem; font-size: 1.75rem;">새 게시글 작성</h1>
+
+        <form id="postForm" style="max-width: 800px;">
+          <div class="form-group">
+            <label for="postTitle" class="form-label">제목 *</label>
+            <input
+              type="text"
+              id="postTitle"
+              class="form-input"
+              maxlength="200"
+              required
+              placeholder="게시글 제목을 입력하세요"
+            />
+            <small class="text-muted" style="display: block; margin-top: 0.25rem;">200자 이내</small>
+          </div>
+
+          <div class="form-group">
+            <label for="postAuthor" class="form-label">작성자명 *</label>
+            <input
+              type="text"
+              id="postAuthor"
+              class="form-input"
+              maxlength="50"
+              required
+              placeholder="작성자명을 입력하세요"
+            />
+            <small class="text-muted" style="display: block; margin-top: 0.25rem;">50자 이내</small>
+          </div>
+
+          <div class="form-group">
+            <label for="postContent" class="form-label">내용 *</label>
+            <textarea
+              id="postContent"
+              class="form-textarea"
+              maxlength="5000"
+              required
+              placeholder="게시글 내용을 입력하세요"
+            ></textarea>
+            <small class="text-muted" style="display: block; margin-top: 0.25rem;">5000자 이내</small>
+          </div>
+
+          <div class="btn-group">
+            <button type="submit" id="submitBtn" class="btn btn-success">작성</button>
+            <button type="button" id="cancelFormBtn" class="btn btn-secondary">취소</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Confirm Dialog Modal -->
+  <div id="confirmModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">확인</h2>
+        <button type="button" class="modal-close" onclick="UIUtils.closeModal('confirmModal');">✕</button>
+      </div>
+      <div class="confirm-dialog">
+        <div id="confirmMessage" class="confirm-dialog-message">
+          정말 진행하시겠습니까?
+        </div>
+        <div class="confirm-dialog-actions">
+          <button id="confirmBtn" class="btn btn-danger">확인</button>
+          <button id="cancelBtn" class="btn btn-secondary">취소</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
